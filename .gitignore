@@ -27,8 +27,13 @@ wheels/
 # Models & Data
 *.zip
 *.pkl
-dataset/
+dataset/*
+!dataset/ready/
 colab_workspace/dataset/
+
+# Raw Currency Dumps (Too large for Git)
+dataset/currencies/
+dataset/raw/
 
 # Logs
 logs/
