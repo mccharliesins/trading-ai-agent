@@ -9,7 +9,7 @@ class StockTradingEnv(gym.Env):
     """
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, df, initial_balance=10000, commission_pct=0.0001, contract_size=1.0, leverage=100.0):
+    def __init__(self, df, initial_balance=10000, commission_pct=0.0001, contract_size=1.0, leverage=100.0, random_start=False, stop_loss_pct=0.01, take_profit_pct=0.03):
         super(StockTradingEnv, self).__init__()
         
         self.df_values = df.values
@@ -25,10 +25,11 @@ class StockTradingEnv(gym.Env):
         self.commission_pct = commission_pct
         self.contract_size = contract_size 
         self.leverage = leverage 
+        self.random_start = random_start
         
         # RISK MANAGEMENT CONSTANTS
-        self.STOP_LOSS_PCT = 0.01 # 1% (Safety)
-        self.TAKE_PROFIT_PCT = 0.03 # 3% (Target 1:3 Risk:Reward)
+        self.STOP_LOSS_PCT = stop_loss_pct
+        self.TAKE_PROFIT_PCT = take_profit_pct
         self.RISK_PER_TRADE = 0.02 # 2% Max Risk per trade
         
         # Action Space: 0=Hold, 1=Buy/Long, 2=Sell/Short
@@ -41,13 +42,23 @@ class StockTradingEnv(gym.Env):
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
-        self.current_step = 0
+        
+        if self.random_start:
+             # Ensure we have at least some steps (e.g. 1000) before end of data
+             max_start = len(self.df_values) - 1000 
+             if max_start > 0:
+                 self.current_step = np.random.randint(0, max_start)
+             else:
+                 self.current_step = 0
+        else:
+             self.current_step = 0
+             
         self.balance = self.initial_balance
         self.shares_held = 0 
         self.net_worth = self.initial_balance
         self.max_net_worth = self.initial_balance
         self.portfolio_history = [self.initial_balance]
-        self.initial_price = self.df_values[0][self.close_idx]
+        self.initial_price = self.df_values[self.current_step][self.close_idx]
         self.entry_price = 0 
         self.realized_pnl = 0 
         return self._next_observation(), {}

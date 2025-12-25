@@ -24,18 +24,25 @@ wheels/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+
 # Models & Data
 *.zip
 *.pkl
 dataset/*
 !dataset/ready/
 colab_workspace/dataset/
+dataset_currency/
 
 # Raw Currency Dumps (Too large for Git)
 dataset/currencies/
 dataset/raw/
 
-# Logs
+# Logs & Artifacts
 logs/
+checkpoints/
+tensorboard_logs_global/
 best_model/
 *.log
+*.png
+backtest_log.txt
+vocab.txt
