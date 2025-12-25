@@ -15,6 +15,16 @@ The agent aims for a **Professional Risk profile**:
 *   `backtest.py`: Verification script to visualize performance on unseen data.
 *   `data_processor.py`: Utilities for cleaning and technical indicator generation (RSI, MACD, Ichimoku, etc.).
 *   `colab_workspace/`: Self-contained folder for running training in Google Colab.
+*   `kaggle_workspace/global_macro/`: **(NEW)** Global Macro Training System (8 Uncorrelated Assets, 100M Steps).
+
+## Global Macro Strategy (2005-2015)
+We have expanded the agent to train on **8 Uncorrelated Assets** simultaneously to learn universal market dynamics:
+*   **Currencies**: EUR/USD, GBP/USD
+*   **Indices**: SPX500, JP225
+*   **Commodities**: Gold (XAU), Oil (WTI), Corn
+*   **Bonds**: US 10Y Treasury
+
+**[> View Full Global Macro Documentation](kaggle_workspace/global_macro/README_KAGGLE_GLOBAL.md)**
 
 ## Performance Gallery (2016-2020 Validation)
 
